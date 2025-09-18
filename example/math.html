@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<style>
+#map {
+    width: 1300px;
+    height: 1000px;
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=4SyXICjA6hlw03FPG9ISGWMaODIDPMg0&callback=initialize"></script>
+<script src="../lib/math.js"></script>
+<script>
+let vectors = [
+    [ 116.397945, 40.044751 ],
+    [ 116.373223, 39.95853 ],
+    [ 116.46521, 40.005854 ],
+    [ 116.449112, 39.914271 ],
+    [ 116.538799, 39.830543 ],
+    [ 116.210522, 39.885487 ],
+    [ 116.347352, 39.979321 ]
+];
+
+function initialize() {
+    var map = new BMapGL.Map('map');
+    map.centerAndZoom(new BMapGL.Point(116.39852, 39.93242), 12);
+
+    var polygon = new BMapGL.Polygon(
+        vectors.map(d => new BMapGL.Point(d[ 0 ], d[ 1 ])),
+        { strokeColor: 'blue', strokeWeight: 2, strokeOpacity: 0.5 });
+    map.addOverlay(polygon);
+
+    var point;
+    var marker;
+
+    map.addEventListener('click', function (e) {
+        let { lng, lat } = e.latlng;
+        if (!point) {
+            point = new BMapGL.Point(lng, lat);
+            marker = new BMapGL.Marker(point);        // 创建标注
+            map.addOverlay(marker);
+        } else {
+            point.lng = lng;
+            point.lat = lat;
+            marker.setPosition(point);
+        }
+        let isInside = math.isInside(lng, lat, vectors);
+        console.log(isInside);
+    });
+
+}
+</script>
+</body>
+</html>

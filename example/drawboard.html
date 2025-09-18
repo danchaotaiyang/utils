@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.wrap {
+    padding: 20px;
+}
+
+.draw-board-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 30px 30px 100px 30px;
+    background: rgba(0, 0, 0, .5);
+}
+
+.draw-board {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+.sign-result,
+.sign-canvas {
+    margin-top: 10px;
+    border: 1px solid rgba(0, 0, 0, .5);
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+    <button type="button" class="create-sign">签字</button>
+    <button type="button" class="save-sign">保存</button>
+    <div class="sign-result"></div>
+    <div class="sign-canvas" id="canvas"></div>
+</div>
+
+<div class="draw-board-overlay" style="display: none;">
+    <div class="draw-board">
+        <canvas class="draw-canvas" id="draw-canvas"></canvas>
+        <div class="draw-operation">
+            <button type="button" id="reset">重签</button>
+            <button type="button" id="confirm">确认</button>
+        </div>
+    </div>
+</div>
+<script src="./jquery.min.js"></script>
+<script src="../lib/signatureBoard.js"></script>
+<script src="./html2canvas.min.js"></script>
+<script src="./jspdf.umd.min.js"></script>
+<script>
+jQuery(function ($) {
+    /*  签字
+  ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/
+    const $btnSign = $('.create-sign');
+    const $board = $('.draw-board-overlay');
+    let board;
+    let $target = $('.sign-result');
+
+    $btnSign.on('click', function () {
+        $board.show();
+        const $signBoard = $('.draw-board');
+        board = signatureBoard({
+            el: '#draw-canvas',
+            lineWidth: 10,
+            width: $signBoard.width(),
+            height: $signBoard.height()
+        });
+    });
+
+    $('#confirm').on('click', () => {
+        const img = board.complete();
+        if (img) {
+            const $img = $('<img src="" alt="" />').attr({
+                src: img,
+                width: 300
+            });
+            $target.empty();
+            $target.append($img);
+            $board.hide();
+        }
+    });
+
+    $('#reset').on('click', () => {
+        board.reset();
+    });
+
+    $('.save-sign').on('click', async () => {
+        const $export = document.querySelector('.sign-result');
+        const { x, y, width, height } = $export.getBoundingClientRect();
+        const canvas = await html2canvas($export, {
+            width,
+            height,
+            x,
+            y,
+            // foreignObjectRendering: true, // 是否在浏览器支持的情况下使用ForeignObject渲染
+            useCORS: true, // 是否尝试使用CORS从服务器加载图像
+            async: false, // 是否异步解析和呈现元素
+            // 以下字段必填
+            background: '#ffffff', // 一定要添加背景颜色，否则出来的图片，背景全部都是透明的
+            scale: 2, // 处理模糊问题
+            dpi: 300 // 处理模糊问题
+        });
+        document.getElementById('canvas').appendChild(canvas);
+
+        const scale = 1;
+        const doc = new jspdf.jsPDF({
+            orientation: 'landscape', //"p" | "portrait" | "l" | "landscape";
+            unit: 'px', //"pt" | "px" | "in" | "mm" | "cm" | "ex" | "em" | "pc";
+            format: [ width / scale, height / scale ],// string | number[];
+            compress: false
+        });
+        const pageData = canvas.toDataURL('image/png', 1);
+        doc.setFontSize(40);
+        doc.addImage(pageData, 'PNG', 0, 0, width, height);
+        doc.save('签名' + '.pdf');
+    });
+});
+
+// TODO 生成的canvas存在偏移
+</script>
+</body>
+</html>

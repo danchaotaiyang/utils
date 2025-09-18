@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "strict": true,
+        "jsx": "preserve",
+        "allowJs": true,
+        "importHelpers": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": false,
+        "baseUrl": "./",
+        "outDir": "./lib",
+        "declaration": true,
+        "declarationMap": false,
+        "declarationDir": "./lib/types",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

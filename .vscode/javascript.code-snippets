@@ -1,0 +1,109 @@
+{
+    // const
+    "cosnt": {
+        "prefix": "const",
+        "body": [
+            "const "
+        ],
+        "description": "const"
+    },
+     "ip": {
+        "prefix": "ip",
+        "body": [
+            "import '${1}';"
+        ],
+        "description": "import"
+    },
+    "ipd": {
+        "prefix": "ipd",
+        "body": [
+            "import { ${1} } from '${2}';"
+        ],
+        "description": "import"
+    },
+    "ipn": {
+        "prefix": "ipn",
+        "body": [
+            "import ${1} from '${2}';"
+        ],
+        "description": "import"
+    },
+    "ipp": {
+        "prefix": "ipp",
+        "body": [
+            "import * as ${1} from '${2}';"
+        ],
+        "description": "import"
+    },
+   "ec": {
+        "prefix": "ec",
+        "body": [
+            "export const "
+        ],
+        "description": "export const"
+    },
+    "ed": {
+        "prefix": "ed",
+        "body": [
+            "export default "
+        ],
+        "description": "export default"
+    },
+    "ef": {
+        "prefix": "ef",
+        "body": [
+            "export * from '${1}';"
+        ],
+        "description": "export * from"
+    },
+    "tr": {
+        "prefix": "tr",
+        "body": [
+            "try {",
+            "    ${1}",
+            "} catch (e) {",
+            "    console.warn(e);",
+            "} finally {",
+            "}"
+        ],
+        "description": "try catch finally"
+    },
+    // 箭头函数
+    "afn": {
+        "prefix": "afn",
+        "body": [
+            "${2}(${3}) => {${4}}${1}"
+        ],
+        "description": "箭头函数"
+    },
+    "lg": {
+        "prefix": "lg",
+        "body": [
+            "console.log(${1});"
+        ],
+        "description": "console.log"
+    },
+    "rc": {
+        "prefix": "rc",
+        "body": [
+            "const ${1} = require('${2}');"
+        ],
+        "description": "require"
+    },
+    // TODO
+    "///": {
+        "prefix": "///",
+        "body": [
+            "// TODO "
+        ],
+        "description": "TODO"
+    },
+    // 
+    "]]": {
+        "prefix": "]]",
+        "body": [
+            "[ ${1} ]"
+        ],
+        "description": "]]"
+    }
+}

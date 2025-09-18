@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="./jquery.min.js"></script>
+<script src="../lib/utils.js"></script>
+<script src="../lib/tools.js"></script>
+<script src="../lib/sign.js"></script>
+<script src="./index.js"></script>
+<!--<script src="../ajax.js"></script>-->
+<script>
+/*var LICENSE_CONFIG = {
+    PLATFORM: 'portal',
+    VERSION: '1.0',
+    SALT: '27c8fbb90a8d00c1e0b1c69aada22403'
+};*/
+var LICENSE_CONFIG = { SALT: 'F2E10A88885DDB063A66A7863F1583FB', PLATFORM: 'jl_music', VERSION: '0.1' };
+
+jQuery(function ($) {
+    var digit = Number(utils.createRandomNumber(1));
+    var num = utils.createRandomNumber(digit);
+    var num2 = utils.createRandomNumberRange(100, 200, 1);
+    console.log(digit + '位随机数', num);
+    console.log(num2);
+    console.log(num + '汉化', utils.localizeNumber(Number(num)));
+    console.log(16 + '汉化', utils.localizeNumber(16));
+    console.log(16 + '汉化', utils.localizeNumber(16, { idealize: true }));
+    console.log(num + '汉化大写', utils.localizeNumber(Number(num), { capital: true }));
+    console.log(digit + '位随机字符串：', utils.createRandomString(digit));
+    console.log('转全角：', utils.toDBC('",.(['));
+    console.log('转全角：', utils.toDBC('Abc_'));
+    console.log('转全角：', utils.toDBC('我的Utils.js'));
+    console.log('转全角：', utils.toDBC('>}&@;'));
+    console.log('转半角：', utils.toSBC('Ｕｔｉｌｓ．ｊｓ'));
+    console.log('转半角：', utils.toSBC('＞｝＆＠；'));
+    console.log('浏览器信息：', utils.getBrowser(window));
+    console.log('首字母大写 from char code：', utils.capitalize('from char code'));
+
+    console.log('地址 ', utils.validateURL('https://baike.baidu.com/item/中国/229000?fromtitle=%E8%A2%AB%E5%AD%90%E6%A4%8D%E7%89%A9&fromid=280789&fr=aladdin'));
+
+    // console.log('签名', sign.createSign({ id: 'iG6fFxAwp7mZWry4F8xdJ', type: 'utils' }, LICENSE_CONFIG));
+    // console.log('签名', sign.signFormat({ id: 'iG6fFxAwp7mZWry4F8xdJ', type: 'utils' }, LICENSE_CONFIG, 2));
+
+    console.log('身份证验证', utils.validateIdentification('220202198603246319'));
+    console.log('URL验证', utils.validateURL('https://wmclg.cenwei.net/weixin/upload/voice/20230511/9d8a4826d5b838d5ca5d59d1eb07effc.mp3'));
+
+    /*ajax.get('/admin/public/login.html', {}, function (data) {
+        console.log(data);
+    });
+
+    ajax.post('/admin/public/showLoginMsgCode', { params: { username: 'yxl' } }, function (data) {
+        console.log(data);
+    });*/
+    console.log('--------------------------------------------------------');
+    console.log(123456.78, utils.localizeNumber(123456.78));
+    console.log(123456.78, utils.localizeNumber(123456.78, { uppercase: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { currency: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { currency: true, uppercase: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { idealize: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { idealize: true, uppercase: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { idealize: true, currency: true }));
+    console.log(123456.78, utils.localizeNumber(123456.78, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(-123456.78, utils.localizeNumber(-123456.78));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { uppercase: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { currency: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { currency: true, uppercase: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { idealize: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { idealize: true, uppercase: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { idealize: true, currency: true }));
+    console.log(-123456.78, utils.localizeNumber(-123456.78, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(0, utils.localizeNumber(0));
+    console.log(0, utils.localizeNumber(0, { uppercase: true }));
+    console.log(0, utils.localizeNumber(0, { currency: true }));
+    console.log(0, utils.localizeNumber(0, { currency: true, uppercase: true }));
+    console.log(0, utils.localizeNumber(0, { idealize: true }));
+    console.log(0, utils.localizeNumber(0, { idealize: true, uppercase: true }));
+    console.log(0, utils.localizeNumber(0, { idealize: true, currency: true }));
+    console.log(0, utils.localizeNumber(0, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(1001, utils.localizeNumber(1001));
+    console.log(1001, utils.localizeNumber(1001, { uppercase: true }));
+    console.log(1001, utils.localizeNumber(1001, { currency: true }));
+    console.log(1001, utils.localizeNumber(1001, { currency: true, uppercase: true }));
+    console.log(1001, utils.localizeNumber(1001, { idealize: true }));
+    console.log(1001, utils.localizeNumber(1001, { idealize: true, uppercase: true }));
+    console.log(1001, utils.localizeNumber(1001, { idealize: true, currency: true }));
+    console.log(1001, utils.localizeNumber(1001, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(10.01, utils.localizeNumber(10.01));
+    console.log(10.01, utils.localizeNumber(10.01, { uppercase: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { currency: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { currency: true, uppercase: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { idealize: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { idealize: true, uppercase: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { idealize: true, currency: true }));
+    console.log(10.01, utils.localizeNumber(10.01, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(10, utils.localizeNumber(10));
+    console.log(10, utils.localizeNumber(10, { uppercase: true }));
+    console.log(10, utils.localizeNumber(10, { currency: true }));
+    console.log(10, utils.localizeNumber(10, { currency: true, uppercase: true }));
+    console.log(10, utils.localizeNumber(10, { idealize: true }));
+    console.log(10, utils.localizeNumber(10, { idealize: true, uppercase: true }));
+    console.log(10, utils.localizeNumber(10, { idealize: true, currency: true }));
+    console.log(10, utils.localizeNumber(10, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(1753.01, utils.localizeNumber(1753.01));
+    console.log(1753.01, utils.localizeNumber(1753.01, { uppercase: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { currency: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { currency: true, uppercase: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { idealize: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { idealize: true, uppercase: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { idealize: true, currency: true }));
+    console.log(1753.01, utils.localizeNumber(1753.01, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(6.6, utils.localizeNumber(6.6));
+    console.log(6.6, utils.localizeNumber(6.6, { uppercase: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { currency: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { currency: true, uppercase: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { idealize: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { idealize: true, uppercase: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { idealize: true, currency: true }));
+    console.log(6.6, utils.localizeNumber(6.6, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(0.27, utils.localizeNumber(0.27));
+    console.log(0.27, utils.localizeNumber(0.27, { uppercase: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { currency: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { currency: true, uppercase: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { idealize: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { idealize: true, uppercase: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { idealize: true, currency: true }));
+    console.log(0.27, utils.localizeNumber(0.27, { idealize: true, uppercase: true, currency: true }));
+
+    console.log(123456789123456.12345, utils.formatThousands(123456789123456.12345));
+
+});
+
+function findClosestNumbers(a, b) {
+    // 找到 a 中与 b 最接近的元素
+    let closestA = a.reduce((acc, cur, index) => {
+        let minDiff = Math.min(...b.map(item => Math.abs(cur - item)));
+        if (minDiff < acc.minDiff) {
+            return { minDiff, index };
+        } else {
+            return acc;
+        }
+    }, { minDiff: Infinity, index: 0 });
+
+    // 找到 b 中与 a 最接近的元素
+    let closestB = b.reduce((acc, cur, index) => {
+        let minDiff = Math.min(...a.map(item => Math.abs(cur - item)));
+        if (minDiff < acc.minDiff) {
+            return { minDiff, index };
+        } else {
+            return acc;
+        }
+    }, { minDiff: Infinity, index: 0 });
+
+    // 操作 a 数组
+    let tempA = a[closestA.index];
+    a.splice(closestA.index, 1);
+    a.push(tempA);
+
+    // 操作 b 数组
+    let tempB = b[closestB.index];
+    b.splice(closestB.index, 1);
+    b.unshift(tempB);
+
+    return { a, b };
+}
+
+let a = [3, 2];
+let b = [5, 1];
+console.log(findClosestNumbers(a, b));
+</script>
+</body>
+</html>

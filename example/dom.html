@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<style>
+body {
+    padding: 100px;
+}
+
+.box1 {
+    position: relative;
+    border: 1px solid #333;
+}
+
+.panel {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    display: none;
+    pointer-events: none;
+}
+
+.point {
+    position: absolute;
+    border-radius: 50%;
+    background-color: darkblue;
+    transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+<div class="box1">
+    <div class="panel"></div>
+</div>
+<script src="./jquery.min.js"></script>
+<script src="../lib/utils.js"></script>
+<script>
+const range = [ 890, 590 ];
+const panel = [ 360, 220 ];
+const point = 60;
+$('.box1').css({
+    width : `${ range[ 0 ] }px`,
+    height: `${ range[ 1 ] }px`
+});
+$('.panel').css({
+    width : `${ panel[ 0 ] }px`,
+    height: `${ panel[ 1 ] }px`
+});
+$('.point').css({
+    width : `${ point }px`,
+    height: `${ point }px`
+});
+const data = [
+    {
+        'x': -20,
+        'y': -70
+    },
+    {
+        'x': 987,
+        'y': 247
+    },
+    {
+        'x': 9,
+        'y': 256
+    },
+    {
+        'x': 111,
+        'y': 470
+    },
+    {
+        'x': 603,
+        'y': 878
+    },
+    {
+        'x': 670,
+        'y': 848
+    },
+    {
+        'x': 750,
+        'y': 640
+    },
+    {
+        'x': 550,
+        'y': 650
+    },
+    {
+        'x': 850,
+        'y': 90
+    },
+    {
+        'x': 350,
+        'y': -90
+    },
+    {
+        'x': 950,
+        'y': -30
+    },
+    {
+        'x': 850,
+        'y': -60
+    },
+    {
+        'x': 550,
+        'y': -20
+    }
+].map((d) => {
+    const $point = $('<div class="point"></div>');
+    $point.css({ width: `${ point }px`, height: `${ point }px`, top: `${ d.y }px`, left: `${ d.x }px` });
+    $point.on('click', () => {
+        const { x, y } = utils.getElementPositionWithinRange(range, panel, d.x, d.y, point);
+        $('.panel').css({ top: `${ y }px`, left: `${ x }px` }).show();
+    });
+    $('.box1').append($point);
+});
+</script>
+</body>
+</html>

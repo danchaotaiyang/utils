@@ -1,0 +1,48 @@
+{
+    "name": "utils",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build-utils": "rollup -c build/rollup.utils.js",
+        "build-math": "rollup -c build/rollup.math.js",
+        "build-axios": "rollup -c build/rollup.axios.js",
+        "build-ajax": "rollup -c build/rollup.ajax.js",
+        "build-sign": "rollup -c build/rollup.sign.js",
+        "build-tools": "rollup -c build/rollup.tools.js",
+        "build-custom": "rollup -c build/rollup.custom.js",
+        "build-signature-board": "rollup -c build/plugins/rollup.signatureBoard.js",
+        "build": "node build/concurrently.js",
+        "example": "http-server -p 8900"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "alova": "^3.2.10",
+        "axios": "^1.9.0",
+        "howler": "^2.2.4",
+        "localforage": "^1.10.0",
+        "md5": "^2.3.0",
+        "mitt": "^3.0.1",
+        "sip.js": "^0.21.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.26.10",
+        "@babel/polyfill": "^7.12.1",
+        "@babel/preset-env": "^7.26.9",
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-commonjs": "^28.0.3",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-typescript": "^12.1.2",
+        "@types/md5": "^2.3.5",
+        "concurrently": "^9.1.2",
+        "http-server": "^14.1.1",
+        "rollup": "^4.40.0",
+        "rollup-plugin-dev": "^2.0.5",
+        "rollup-plugin-typescript2": "^0.36.0",
+        "typescript": "^5.8.3"
+    }
+}

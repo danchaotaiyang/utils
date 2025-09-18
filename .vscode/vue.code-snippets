@@ -1,0 +1,28 @@
+{
+    
+    // Vue 3 基础结构
+    "vue3": {
+        "prefix": "vue3",
+        "body": [
+            "<script setup>",
+            "</script>",
+            "",
+            "<template>",
+            "</template>",
+            "",
+            "<style lang=\"scss\" scoped>",
+            "</style>"
+        ],
+        "description": "Vue 3 基础模板"
+    },
+
+    "vfr": {
+        "prefix": "vfr",
+        "body": [
+            "v-for=\"(${2:item}, ${3:index}) in ${1:items}\" :key=\"${4:index}\""
+        ],
+        "description": "Vue for 循环"
+    }
+
+
+} 

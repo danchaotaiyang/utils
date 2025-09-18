@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Vue3 rule content
+# Vue3 规范指南
+
+# You can @ files here
+- 可以在这里 @ 引用文件
+# You can use markdown but dont have to
+- 可以使用 markdown 语法（非必需）
+# Use 4 spaces for code indentation
+- 所有代码缩进使用 4 个空格
+- <script> <template> <style> <html> <head> <body> 子元素不允许缩进
+# Use ES6+ syntax for modern JavaScript features
+- 使用 ES6+ 现代 JavaScript 语法特性
+# Use Vite for fast development and building
+- 使用 Vite 作为开发和构建工具
+# Follow Vue 3 style guide and naming conventions
+- 遵循 Vue 3 风格指南和命名规范
+# Use <script setup> syntax in Single File Components
+- 在单文件组件中使用 <script setup> 语法
+# Use Suspense for async components
+- 使用 Suspense 处理异步组件
+# Implement proper props and emits definitions
+- 正确定义 props 和 emits
+# Utilize Vue 3's Teleport component when needed
+- 需要时使用 Vue 3 的 Teleport 组件
+# Utilize provide/inject for dependency injection
+- 使用 provide/inject 进行依赖注入
+# Use Pinia for state management
+- 使用 Pinia 进行状态管理
+# Use mitt for event emitting
+- 使用 mitt 进行事件发射
+# Use SCSS for CSS preprocessing
+- 使用 SCSS 进行 CSS 预处理
