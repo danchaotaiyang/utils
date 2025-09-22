@@ -1,2 +1,2 @@
-export { formatSeconds, getClientSize, createRandomString, downloadFile, exitFullscreen, isFullscreen, requestFullscreen } from '../utils';
-export { waiting } from '../tools';
+export { formatSeconds, getClientSize, createRandomString, exitFullscreen, isFullscreen, requestFullscreen } from '../utils';
+export { downloadFile, waiting } from '../tools';

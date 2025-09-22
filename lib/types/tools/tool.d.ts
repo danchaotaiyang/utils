@@ -44,4 +44,48 @@ export declare const getGradientCoordinates: (startArc: number, endArc: number) 
  * @param { Number } [time = 32] 等待时间
  */
 export declare const waiting: (time?: number) => Promise<void>;
+/**
+ * 下载文件
+ * @param { String } filePath 文件路径
+ * @param { String } fileName 文件名
+ * */
+export declare const downloadFile: (filePath: string, fileName?: string) => Promise<void>;
+/**
+ * 获取范围内的元素位置
+ * @param { Number[] } range 限制范围
+ * @param { Number[] } area 子元素大小
+ * @param { Number } left 点位横坐标
+ * @param { Number } top 点位纵坐标
+ * @param { Number } [point = 0] 点的大小
+ * @return { Object } 返回值说明
+ * */
+export declare const getElementPositionWithinRange: (range: number[], area: number[], left: number, top: number, point?: number) => any;
+/**
+ * 在父多边形内随机生成若干点，且避开所有子多边形
+ * @param { Array<Array<number>> } parent 父多边形顶点列表，至少3个点，格式 [[x,y], ...]
+ * @param { Array<Array<Array<number>>> } children 子多边形集合，格式 [[[x,y],...], ...]
+ * @param { number } [count=1] 需要生成的点数量
+ * @returns { Array<Array<number>> } 命中的点集合 [[x, y], ...]，可能少于 count
+ *
+ * @example
+ * // 基础示例：在无孔洞的三角形内生成 1 个点
+ * const parent = [ [0,0], [10,0], [5,8] ];
+ * const pts = randomPointInPolygonExcludingChildren(parent, [], 1);
+ * // => 例如 [[4.12, 2.35]]
+ *
+ * @example
+ * // 含孔洞示例：在矩形内生成 5 个点，但避开中心小矩形
+ * const parent = [ [0,0], [20,0], [20,10], [0,10] ];
+ * const hole   = [ [8,3], [12,3], [12,7], [8,7] ];
+ * const pts = randomPointInPolygonExcludingChildren(parent, [hole], 5);
+ * // => 返回 0~5 个点（若孔洞较大或区域狭小，可能不足 5 个）
+ *
+ * @example
+ * // 批量生成并绘制（伪代码）
+ * const parent = /* ... * / [];
+ * const holes = /* ... * / [];
+ * const samples = randomPointInPolygonExcludingChildren(parent, holes, 100);
+ * samples.forEach(([x, y]) => drawCircle(x, y));
+ */
+export declare const randomPointInPolygonExcludingChildren: (parent: Array<Array<number>>, children?: Array<Array<Array<number>>>, count?: number) => Array<Array<number>>;
 export {};

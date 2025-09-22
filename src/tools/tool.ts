@@ -1,4 +1,4 @@
-import { isObject } from '@/utils';
+import { isObject, isInside } from '@/utils';
 /**
  ==================================================
  Business method tools
@@ -196,3 +196,104 @@ export const getElementPositionWithinRange = (range: number[], area: number[], l
     return { x, y };
 };
 
+
+/**
+ * 在父多边形内随机生成若干点，且避开所有子多边形
+ * @param { Array<Array<number>> } parent 父多边形顶点列表，至少3个点，格式 [[x,y], ...]
+ * @param { Array<Array<Array<number>>> } children 子多边形集合，格式 [[[x,y],...], ...]
+ * @param { number } [count=1] 需要生成的点数量
+ * @returns { Array<Array<number>> } 命中的点集合 [[x, y], ...]，可能少于 count
+ *
+ * @example
+ * // 基础示例：在无孔洞的三角形内生成 1 个点
+ * const parent = [ [0,0], [10,0], [5,8] ];
+ * const pts = randomPointInPolygonExcludingChildren(parent, [], 1);
+ * // => 例如 [[4.12, 2.35]]
+ *
+ * @example
+ * // 含孔洞示例：在矩形内生成 5 个点，但避开中心小矩形
+ * const parent = [ [0,0], [20,0], [20,10], [0,10] ];
+ * const hole   = [ [8,3], [12,3], [12,7], [8,7] ];
+ * const pts = randomPointInPolygonExcludingChildren(parent, [hole], 5);
+ * // => 返回 0~5 个点（若孔洞较大或区域狭小，可能不足 5 个）
+ *
+ * @example
+ * // 批量生成并绘制（伪代码）
+ * const parent = /* ... * / [];
+ * const holes = /* ... * / [];
+ * const samples = randomPointInPolygonExcludingChildren(parent, holes, 100);
+ * samples.forEach(([x, y]) => drawCircle(x, y));
+ */
+export const randomPointInPolygonExcludingChildren = (
+    parent: Array<Array<number>>,
+    children: Array<Array<Array<number>>> = [],
+    count: number = 1
+): Array<Array<number>> => {
+
+    if (!Array.isArray(parent) || parent.length < 3 || count <= 0) {
+        return [];
+    }
+
+    // 计算父多边形的轴对齐包围盒
+    let minX = parent[ 0 ][ 0 ];
+    let maxX = parent[ 0 ][ 0 ];
+    let minY = parent[ 0 ][ 1 ];
+    let maxY = parent[ 0 ][ 1 ];
+
+    for (let i = 1; i < parent.length; i++) {
+        const px = parent[ i ][ 0 ];
+        const py = parent[ i ][ 1 ];
+        minX = px < minX ? px : minX;
+        maxX = px > maxX ? px : maxX;
+        minY = py < minY ? py : minY;
+        maxY = py > maxY ? py : maxY;
+    }
+
+    // 子多边形包围盒（用于快速剔除）
+    const holeBBoxes: Array<{ minX: number; maxX: number; minY: number; maxY: number; idx: number }> = [];
+    if (children && children.length) {
+        for (let i = 0; i < children.length; i++) {
+            const hole = children[ i ];
+            if (!Array.isArray(hole) || hole.length < 3) continue;
+            let hMinX = hole[ 0 ][ 0 ], hMaxX = hole[ 0 ][ 0 ];
+            let hMinY = hole[ 0 ][ 1 ], hMaxY = hole[ 0 ][ 1 ];
+            for (let k = 1; k < hole.length; k++) {
+                const hx = hole[ k ][ 0 ];
+                const hy = hole[ k ][ 1 ];
+                hMinX = hx < hMinX ? hx : hMinX;
+                hMaxX = hx > hMaxX ? hx : hMaxX;
+                hMinY = hy < hMinY ? hy : hMinY;
+                hMaxY = hy > hMaxY ? hy : hMaxY;
+            }
+            holeBBoxes.push({ minX: hMinX, maxX: hMaxX, minY: hMinY, maxY: hMaxY, idx: i });
+        }
+    }
+
+    const isValid = (x: number, y: number): boolean => {
+        if (!isInside(x, y, parent)) {
+            return false;
+        }
+        for (let b = 0; b < holeBBoxes.length; b++) {
+            const bb = holeBBoxes[ b ];
+            if (x >= bb.minX && x <= bb.maxX && y >= bb.minY && y <= bb.maxY) {
+                const hole = children[ bb.idx ];
+                if (isInside(x, y, hole)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
+    const results: Array<Array<number>> = [];
+
+    while (results.length < count) {
+        const rx = Math.random() * (maxX - minX) + minX;
+        const ry = Math.random() * (maxY - minY) + minY;
+        if (isValid(rx, ry)) {
+            results.push([ rx, ry ]);
+        }
+    }
+
+    return results;
+};

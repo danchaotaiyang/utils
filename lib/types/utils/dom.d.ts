@@ -30,28 +30,7 @@ export declare const scrollTo: (x?: number, y?: number) => void;
  * */
 export declare const getSelectedText: () => string | undefined;
 /**
- * 获取浏览器滚动条宽度
- * @return { Number } 滚动条宽度
- * */
-export declare const getScrollBarWidth: () => number;
-/**
  * 获取浏览器窗口的尺寸
  * @return { Object } 浏览器窗口的尺寸
  * */
 export declare const getClientSize: () => object;
-/**
- * 获取范围内的元素位置
- * @param { Number[] } range 限制范围
- * @param { Number[] } area 子元素大小
- * @param { Number } left 点位横坐标
- * @param { Number } top 点位纵坐标
- * @param { Number } [point = 0] 点的大小
- * @return { Object } 返回值说明
- * */
-export declare const getElementPositionWithinRange: (range: number[], area: number[], left: number, top: number, point?: number) => any;
-/**
- * 下载文件
- * @param { String } filePath 文件路径
- * @param { String } fileName 文件名
- * */
-export declare const downloadFile: (filePath: string, fileName?: string) => Promise<void>;

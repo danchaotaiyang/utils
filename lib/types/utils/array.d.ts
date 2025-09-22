@@ -11,12 +11,6 @@
  * */
 export declare const shuffleArray: (value: any[]) => any[];
 /**
- * 判断是否为数组
- * @param { * } value - 任意数据类型值
- * @return { Boolean } 返回是否为数组的布尔值
- * */
-export declare const isArray: (value: any) => boolean;
-/**
  * 过滤树状数据
  * @param { Array } data 数据
  * @param { String } keyword 关键字

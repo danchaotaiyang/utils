@@ -43,7 +43,7 @@ export declare const localizeNumber: (number: number, option?: LocalizeOption) =
 export declare const toNumber: (value: any, precision: number | undefined, pure?: boolean) => number | string;
 /**
  * 数字千分位格式化
- * @param { Number } num - 需要格式化的数字
+ * @param { Number } value - 需要格式化的数字
  * @return { String } 返回千分位格式化后的字符串
  */
 export declare const formatThousands: (value: any) => string;

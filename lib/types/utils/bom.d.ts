@@ -1,14 +1,8 @@
 /**
- ==================================================
- Browser data manipulation
- 浏览器数据处理
- ==================================================
- */
-/**
- * 复制到剪贴板
- * @param { string } content 复制内容
+ * 获取浏览器滚动条宽度
+ * @return { Number } 滚动条宽度
  * */
-export declare const copyToClipboard: (content?: string) => Promise<void> | undefined;
+export declare const getScrollBarWidth: () => number;
 /**
  * 浏览器进入全屏模式
  * */

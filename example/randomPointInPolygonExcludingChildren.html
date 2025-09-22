@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>randomPointInPolygonExcludingChildren 示例</title>
+<style>
+#cv { border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<canvas id="cv" width="800" height="500"></canvas>
+<div>
+<button id="regen">重新生成</button>
+<label>数量：<input id="count" type="number" value="300" min="1" max="2000"></label>
+</div>
+<script src="../lib/tools.js"></script>
+<script>
+const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+function drawPoly(ctx, poly, stroke, fill) {
+    ctx.beginPath();
+    ctx.moveTo(poly[0][0], poly[0][1]);
+    for (let i = 1; i < poly.length; i++) ctx.lineTo(poly[i][0], poly[i][1]);
+    ctx.closePath();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = stroke; ctx.stroke();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+}
+
+function main() {
+    const cv = document.getElementById('cv');
+    const ctx = cv.getContext('2d');
+    const count = Math.max(1, Math.min(2000, Number(document.getElementById('count').value) || 300));
+    ctx.clearRect(0, 0, cv.width, cv.height);
+
+    // 示例几何：一个凹多边形 + 两个孔洞
+    const parent = [
+        [60,60],[740,50],[760,200],[700,240],[780,300],[740,440],[400,420],[300,460],[80,380],[120,220]
+    ];
+    const hole1 = [ [300,150],[460,150],[460,260],[300,260] ];
+    const hole2 = [ [520,300],[620,300],[620,380],[520,380] ];
+    const holes = [hole1, hole2];
+
+    drawPoly(ctx, parent, '#333');
+    drawPoly(ctx, hole1, 'red');
+    drawPoly(ctx, hole2, 'red');
+
+    const api = tools.randomPointInPolygonExcludingChildren;
+
+    const pts = api(parent, holes, count);
+    for (const [x, y] of pts) {
+        ctx.fillStyle = 'rgba(0,160,0,0.9)';
+        ctx.fillRect(x - 1, y - 1, 2, 2);
+    }
+
+    // 简单验证（控制台）
+    let ok = 0;
+    for (const [x, y] of pts) {
+        if (isInside(x, y, parent) && !holes.some(h => isInside(x, y, h))) ok++;
+    }
+    console.log(`生成: ${pts.length}，验证通过: ${ok}`);
+}
+
+document.getElementById('regen').addEventListener('click', main);
+main();
+</script>
+</body>
+</html>

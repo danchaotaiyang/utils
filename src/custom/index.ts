@@ -2,12 +2,12 @@ export {
     formatSeconds,
     getClientSize,
     createRandomString,
-    downloadFile,
     exitFullscreen,
     isFullscreen,
     requestFullscreen
 } from '../utils';
 
 export {
+    downloadFile,
     waiting
 } from '../tools';
