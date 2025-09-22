@@ -13,10 +13,9 @@
 <button id="regen">重新生成</button>
 <label>数量：<input id="count" type="number" value="300" min="1" max="2000"></label>
 </div>
+<script src="../lib/utils.js"></script>
 <script src="../lib/tools.js"></script>
 <script>
-const rnd = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
 function drawPoly(ctx, poly, stroke, fill) {
     ctx.beginPath();
     ctx.moveTo(poly[0][0], poly[0][1]);
@@ -56,7 +55,7 @@ function main() {
     // 简单验证（控制台）
     let ok = 0;
     for (const [x, y] of pts) {
-        if (isInside(x, y, parent) && !holes.some(h => isInside(x, y, h))) ok++;
+        if (utils.isInside(x, y, parent) && !holes.some(h => utils.isInside(x, y, h))) ok++;
     }
     console.log(`生成: ${pts.length}，验证通过: ${ok}`);
 }
