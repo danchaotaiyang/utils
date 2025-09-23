@@ -17,7 +17,7 @@ export default {
     ],
     output: {
         file: './lib/utils.js',
-        format: 'es',
+        format: 'umd',
         name: 'utils'
     }
 };

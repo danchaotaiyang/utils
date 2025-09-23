@@ -65,6 +65,11 @@ export declare const getElementPositionWithinRange: (range: number[], area: numb
  * @param { Array<Array<number>> } parent 父多边形顶点列表，至少3个点，格式 [[x,y], ...]
  * @param { Array<Array<Array<number>>> } children 子多边形集合，格式 [[[x,y],...], ...]
  * @param { number } [count=1] 需要生成的点数量
+ * @param { number } [edgeRange=0] 点位微扰范围：
+ *  - 未传或 0：不进行偏移，随机点严格依据原始命中结果；
+ *  - > 0：对每个命中的随机点，在 x、y 方向各添加 [0, edgeRange] 的随机偏移。
+ *    注意：此偏移基于当前实现不会再二次校验，若点非常靠近边界，偏移后可能越界；
+ *    若需要严格限制在范围内，请将该参数设为 0。
  * @returns { Array<Array<number>> } 命中的点集合 [[x, y], ...]，可能少于 count
  *
  * @example
@@ -87,5 +92,5 @@ export declare const getElementPositionWithinRange: (range: number[], area: numb
  * const samples = randomPointInPolygonExcludingChildren(parent, holes, 100);
  * samples.forEach(([x, y]) => drawCircle(x, y));
  */
-export declare const randomPointInPolygonExcludingChildren: (parent: Array<Array<number>>, children?: Array<Array<Array<number>>>, count?: number) => Array<Array<number>>;
+export declare const randomPointInPolygonExcludingChildren: (parent: Array<Array<number>>, children?: Array<Array<Array<number>>>, count?: number, edgeRange?: number) => Array<Array<number>>;
 export {};

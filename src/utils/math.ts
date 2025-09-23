@@ -138,47 +138,6 @@ export const isInside = (x: number, y: number, vertexes: Array<Array<number>>): 
     }
 
     return intersections % 2 === 1;
-
-    /*
-    let intersectCount = 0;
-
-    for (let i = 0; i < vertexes.length - 1; i++) {
-
-        let x1 = vertexes[ i ][ 0 ];
-        let y1 = vertexes[ i ][ 1 ];
-        let x2 = vertexes[ i + 1 ][ 0 ];
-        let y2 = vertexes[ i + 1 ][ 1 ];
-
-        if ((y1 <= y && y < y2) || (y2 <= y && y < y1)) {
-            // 计算交点的x坐标
-            let xIntersect = (x1 + (y - y1) * (x2 - x1) / (y2 - y1));
-
-            if (xIntersect <= x) {
-                intersectCount++;
-            }
-        }
-    }
-
-    return intersectCount % 2 === 1;
-    */
-
-    /*
-    let intersect = false;
-
-    for (let i = 0, j = vertexes.length - 1; i < vertexes.length; j = i++) {
-
-        let xi = vertexes[ i ][ 0 ], yi = vertexes[ i ][ 1 ];
-        let xj = vertexes[ j ][ 0 ], yj = vertexes[ j ][ 1 ];
-
-        let intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-
-        if (intersect) {
-            intersect = !intersect;
-        }
-    }
-
-    return intersect;
-    */
 };
 
 

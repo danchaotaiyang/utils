@@ -46,7 +46,7 @@ function main() {
 
     const api = tools.randomPointInPolygonExcludingChildren;
 
-    const pts = api(parent, holes, count);
+    const pts = api(parent, holes, count, 30);
     for (const [x, y] of pts) {
         ctx.fillStyle = 'rgba(0,160,0,0.9)';
         ctx.fillRect(x - 1, y - 1, 2, 2);

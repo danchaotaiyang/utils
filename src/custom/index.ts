@@ -1,13 +1,7 @@
 export {
-    formatSeconds,
-    getClientSize,
-    createRandomString,
-    exitFullscreen,
-    isFullscreen,
-    requestFullscreen
+    isInside
 } from '../utils';
 
 export {
-    downloadFile,
-    waiting
+    randomPointInPolygonExcludingChildren
 } from '../tools';
