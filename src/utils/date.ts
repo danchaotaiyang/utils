@@ -7,8 +7,6 @@
 
 export const millisecondInDay: number = 86400000;
 
-const dateFormat = [ '年', '个月', '天', '小时', '分钟', '秒' ];
-
 /**
  * 检查日期是否合法
  * @param { * } date - 检查日期
@@ -26,7 +24,10 @@ export const validateDate = (date: any): boolean => {
  * @param { Number } year - 查询年份
  * @return { Boolean } 返回是否为闰年
  * */
-export const isLeap = (year: number): boolean => (year % 4) === 0 && (year % 100) !== 0 || (year % 400) === 0;
+export const isLeap = (year: number): boolean => {
+
+    return (year % 4) === 0 && (year % 100) !== 0 || (year % 400) === 0;
+}
 
 /**
  * 查询月份天数
@@ -35,6 +36,7 @@ export const isLeap = (year: number): boolean => (year % 4) === 0 && (year % 100
  * @return { Number } 月份天数
  * */
 export const daysInMonth = (year: number, month: number): number => {
+
     return new Date(year, month + 1, 0).getDate();
 };
 
@@ -44,6 +46,7 @@ export const daysInMonth = (year: number, month: number): number => {
  * @return { Number } 年份天数
  * */
 export const daysInYear = (year: number): number => {
+
     let _days_ = 365;
     let _year_ = year || new Date().getFullYear();
 
@@ -126,6 +129,7 @@ const formatSecondsResultDefault = (day: number, hour: number, minute: number, s
  * @return { String } 返回时间描述
  */
 export const formatSeconds = (value: number, formatter?: any): any => {
+
     try {
         //  秒
         let second = Math.ceil(value);
