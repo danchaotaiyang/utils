@@ -1,4 +1,4 @@
-class AnalyserNode {
+class Analyser {
 
     constructor(preferences) {
 
@@ -6,7 +6,7 @@ class AnalyserNode {
 
         this.defineAnalyser(preferences);
 
-        this.createAnalyserNode();
+        this.createAnalyser();
 
         Object.freeze(this);
     }
@@ -14,25 +14,25 @@ class AnalyserNode {
     validationPreferences(preferences) {
 
         if (!preferences) {
-            throw new TypeError('AnalyserNode: preferences 参数不能为空，请传入包含 source、mode 等配置的对象');
+            throw new TypeError('Analyser: preferences 参数不能为空，请传入包含 source、mode 等配置的对象');
         }
 
         let { source, mode, fftSize = 32768 / 4 } = preferences;
 
         if (typeof source === 'string') {
-            throw new TypeError('AnalyserNode: preferences.source 参数不支持字符串URL，请先加载音频文件并传入 AudioBuffer 或 HTMLMediaElement 对象');
+            throw new TypeError('Analyser: preferences.source 参数不支持字符串URL，请先加载音频文件并传入 AudioBuffer 或 HTMLMediaElement 对象');
         }
 
         if (typeof mode !== 'string') {
-            throw new TypeError('AnalyserNode: preferences.mode 参数类型错误，期望字符串类型，实际传入：' + typeof mode);
+            throw new TypeError('Analyser: preferences.mode 参数类型错误，期望字符串类型，实际传入：' + typeof mode);
         }
 
         if (typeof fftSize !== 'number' || !Number.isInteger(fftSize)) {
-            throw new TypeError('AnalyserNode: preferences.fftSize 参数必须是整数类型，实际传入：' + typeof fftSize);
+            throw new TypeError('Analyser: preferences.fftSize 参数必须是整数类型，实际传入：' + typeof fftSize);
         }
 
         if (fftSize < 32 || fftSize > 32768 || (fftSize & (fftSize - 1)) !== 0) {
-            throw new RangeError('AnalyserNode: preferences.fftSize 参数必须在 32 到 32768 范围内且为 2 的幂，实际传入：' + fftSize);
+            throw new RangeError('Analyser: preferences.fftSize 参数必须在 32 到 32768 范围内且为 2 的幂，实际传入：' + fftSize);
         }
     }
 
@@ -106,9 +106,11 @@ class AnalyserNode {
         throw new TypeError(`Analyser: 不支持的音频源类型：${ source.constructor.name }，请传入AudioBuffer、HTMLMediaElement或AudioNode对象`);
     }
 
-    createAnalyserNode() {
+    createAnalyser() {
 
-        const AudioContext = window[ 'AudioContext' ] || window[ 'webkitAudioContext' ];
+        if (!AudioContext) {
+            AudioContext = window[ 'webkitAudioContext' ];
+        }
 
         let context = new AudioContext();
         Object.freeze(context);
@@ -147,15 +149,15 @@ class AnalyserNode {
     createAnalyserData() {
 
         //  将当前频率数据复制到传入的 Uint8Array（无符号字节数组）中。
-        //  如果数组的长度小于 AnalyserNode.frequencyBinCount, 那么 Analyser 多出的元素会被删除。如果是大于，那么数组多余的元素会被忽略。
+        //  如果数组的长度小于 Analyser.frequencyBinCount, 那么 Analyser 多出的元素会被删除。如果是大于，那么数组多余的元素会被忽略。
         //  analyserNode.getByteFrequencyData(new Uint8Array());
 
         //  复制当前波形或时域数据到传递给它的 Uint8Array (无符号字节数组) 中
         //  analyserNode.getByteTimeDomainData(new Uint8Array());
 
-        //  将当前分析节点（AnalyserNode）的频率数据拷贝进一个 Float32Array 数组对象。
+        //  将当前分析节点（Analyser）的频率数据拷贝进一个 Float32Array 数组对象。
         //  此数组表示的频率范围为 0 ~ 22050 Hz，每个元素表示对应频率上的信号分量强度，单位为分贝。
-        //  如果你需要更好的性能并且不太在意数据的精度，你可以使用 AnalyserNode.getByteFrequencyData() 作为代替，这一接口使用 Uint8Array来存储数据（对应的也是这个精度的格式）.
+        //  如果你需要更好的性能并且不太在意数据的精度，你可以使用 Analyser.getByteFrequencyData() 作为代替，这一接口使用 Uint8Array来存储数据（对应的也是这个精度的格式）.
         //  analyserNode.getFloatFrequencyData(new Float32Array());
 
         //  将当前波形或时域数据复制到Float32Array传入的数组中。每个数组值都是一个样本，即特定时间的信号幅度。
@@ -255,7 +257,7 @@ class AnalyserNode {
     }
 }
 
-Object.freeze(AnalyserNode.prototype);
+Object.freeze(Analyser.prototype);
 
 class AudioAnalyser {
 
@@ -271,31 +273,31 @@ class AudioAnalyser {
     validationPreferences(preferences) {
 
         if (!preferences) {
-            throw new TypeError('AnalyserNode: preferences 参数不能为空，请传入包含 source、mode 等配置的对象');
+            throw new TypeError('AudioAnalyser: preferences 参数不能为空，请传入包含 source、mode 等配置的对象');
         }
 
         let { source, mode, fftSize = 32768 / 4 } = preferences;
 
         if (typeof source === 'string') {
-            throw new TypeError('AnalyserNode: preferences.source 参数不支持字符串URL，请先加载音频文件并传入 AudioBuffer 或 HTMLMediaElement 对象');
+            throw new TypeError('AudioAnalyser: preferences.source 参数不支持字符串URL，请先加载音频文件并传入 AudioBuffer 或 HTMLMediaElement 对象');
         }
 
         if (typeof mode !== 'string') {
-            throw new TypeError('AnalyserNode: preferences.mode 参数类型错误，期望字符串类型，实际传入：' + typeof mode);
+            throw new TypeError('AudioAnalyser: preferences.mode 参数类型错误，期望字符串类型，实际传入：' + typeof mode);
         }
 
         if (typeof fftSize !== 'number' || !Number.isInteger(fftSize)) {
-            throw new TypeError('AnalyserNode: preferences.fftSize 参数必须是整数类型，实际传入：' + typeof fftSize);
+            throw new TypeError('AudioAnalyser: preferences.fftSize 参数必须是整数类型，实际传入：' + typeof fftSize);
         }
 
         if (fftSize < 32 || fftSize > 32768 || (fftSize & (fftSize - 1)) !== 0) {
-            throw new RangeError('AnalyserNode: preferences.fftSize 参数必须在 32 到 32768 范围内且为 2 的幂，实际传入：' + fftSize);
+            throw new RangeError('AudioAnalyser: preferences.fftSize 参数必须在 32 到 32768 范围内且为 2 的幂，实际传入：' + fftSize);
         }
     }
 
     defineAnalyser(preferences) {
 
-        let analyserNode = new AnalyserNode(preferences);
+        let analyserNode = new Analyser(preferences);
         Object.freeze(analyserNode);
         Object.defineProperty(this, 'analyserNode', {
             configurable: false,
