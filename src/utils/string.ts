@@ -265,30 +265,41 @@ export const validateURL = (url: string): boolean => {
  * @param { String } href 查询的地址
  * @return { Object } 查询参数对象
  * */
-export const getUrlQuery = (href: string = window.location.href): any => {
+export const getUrlQuery = (href: string = window.location.href): Record<string, string> => {
+    const [url = ''] = href.split('#');
+    const [, search = ''] = url.split('?');
 
-    const [ url = '' ] = href.split('#');
-    const [ , search = '' ] = url.split('?');
-
-    let query: any = {};
+    const query: Record<string, string> = {};
 
     try {
-        query = Object.fromEntries(new URLSearchParams(search));
-    } catch (e) {
-        console.warn(e);
-        if (search) {
-            query = JSON.parse(
-                '{"' +
-                decodeURI(search)
-                    .replace(/"/g, '\"')
-                    .replace(/&/g, '","')
-                    .replace(/=/g, '":"') +
-                '"}'
-            );
-        }
-    }
+        new URLSearchParams(search).forEach((value, key) => {
+            query[key] = value;
+        });
+        return query;
+    } catch (error) {
+        console.warn(error);
 
-    return query;
+        if (!search) {
+            return query;
+        }
+
+        decodeURI(search)
+            .split('&')
+            .forEach((pair) => {
+                if (!pair) {
+                    return;
+                }
+                const [rawKey, rawValue = ''] = pair.split('=');
+                if (!rawKey) {
+                    return;
+                }
+                const key = decodeURIComponent(rawKey);
+                const value = decodeURIComponent(rawValue);
+                query[key] = value;
+            });
+
+        return query;
+    }
 };
 
 /**
@@ -297,7 +308,7 @@ export const getUrlQuery = (href: string = window.location.href): any => {
  * @param { Object } data - 查询参数
  * @return { String } 带参url
  * */
-export const setUrlQuery = (href: string, data: any): string => {
+export const setUrlQuery = (href: string = window.location.href, data: Record<string, string>): string => {
 
     const [ url, hash ] = href.split('#');
     const [ path ] = url.split('?');
