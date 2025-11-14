@@ -294,8 +294,7 @@ export const getUrlQuery = (href: string = window.location.href): Record<string,
                     return;
                 }
                 const key = decodeURIComponent(rawKey);
-                const value = decodeURIComponent(rawValue);
-                query[key] = value;
+                query[key] = decodeURIComponent(rawValue);
             });
 
         return query;
